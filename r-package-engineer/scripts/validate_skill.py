@@ -11,6 +11,7 @@ import yaml
 
 
 def validate(root):
+    root = Path(root).resolve()
     issues = []
     manifest = root / "SKILL.md"
     if not manifest.is_file():

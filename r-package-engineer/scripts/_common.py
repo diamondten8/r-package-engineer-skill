@@ -21,6 +21,7 @@ def r_environment(locale=None):
     env["LANGUAGE"] = "en"
     env["R_ENVIRON_USER"] = os.devnull
     env["R_PROFILE_USER"] = os.devnull
+    env["NOT_CRAN"] = "false"
     if locale:
         env["LC_ALL"] = locale
     return env

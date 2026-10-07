@@ -59,6 +59,9 @@ ERROR/WARNING，脚本保留日志并返回 1，没有误报通过。该次使�
 GitHub Actions 配置覆盖 Linux/Windows/macOS、release R、Python 3.12 和 vignette
 smoke，保留各平台 artifact。远端运行状态以对应 commit 的 Actions 记录为准。
 CI 默认 no-manual，因此绿色基础 CI 仍不能证明完整 CRAN readiness。
+首轮远端回归发现临时目录可能通过短路径或 symlink 表示；验证函数已在入口
+统一 resolve，避免将合法的缺失文件判断为“链接逃逸”。检查子进程明确设置
+`NOT_CRAN=false`，避免继承开发环境而使 skip_on_cran 测试被跳过。
 
 ## 下一步
 
