@@ -31,6 +31,12 @@ def parse_status(log_text):
     return counts
 
 
+def parse_note_sections(log_text):
+    """R may insert elapsed time before a finding, e.g. '... [16s] NOTE'."""
+    return re.findall(r"^\* checking (.*?) \.\.\. (?:\[[^\]\r\n]+\]\s+)?NOTE\s*$",
+                      log_text, flags=re.MULTILINE)
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("package", type=Path)
@@ -97,8 +103,10 @@ def main(argv=None):
             summary["outcome"] = "missing-or-ambiguous-check-log"
             return 2
         summary["check_log"] = str(logs[0])
-        counts = parse_status(logs[0].read_text(encoding="utf-8", errors="replace"))
+        log_text = logs[0].read_text(encoding="utf-8", errors="replace")
+        counts = parse_status(log_text)
         summary["counts"] = counts
+        summary["note_sections"] = parse_note_sections(log_text)
         if counts is None:
             summary["outcome"] = "incomplete-check"
             return 2

@@ -61,6 +61,13 @@ class ScaffoldTests(unittest.TestCase):
 
 
 class CheckTests(unittest.TestCase):
+    def test_note_sections_with_optional_elapsed_time(self):
+        self.assertEqual(check_package.parse_note_sections(
+            "* checking CRAN incoming feasibility ... [16s] NOTE\n"
+            "* checking for future file timestamps ... NOTE\n"
+            "* checking examples ... [0.2s] OK\n"),
+            ["CRAN incoming feasibility", "for future file timestamps"])
+
     def test_runner_never_accepts_notes_or_incomplete_checks(self):
         cases = [("Status: 1 NOTE\n", False, 1, False),
                  ("Status: OK\n", True, 0, False),

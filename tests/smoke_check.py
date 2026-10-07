@@ -3,7 +3,6 @@
 
 import argparse
 import json
-import re
 from pathlib import Path
 import subprocess
 import sys
@@ -13,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "r-package-engineer" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 from _common import executable, r_environment
+from check_package import parse_note_sections
 import scaffold
 
 
@@ -137,8 +137,7 @@ def main():
         raise RuntimeError("Check script did not enforce NOTE review exit status.")
     if not args.full and summary["final_acceptance"]:
         raise RuntimeError("Development smoke incorrectly claims final acceptance.")
-    note_sections = re.findall(r"^\* checking (.*?) \.\.\. NOTE$",
-                              Path(summary["check_log"]).read_text(encoding="utf-8"), re.MULTILINE)
+    note_sections = parse_note_sections(Path(summary["check_log"]).read_text(encoding="utf-8"))
     expected_fixture_notes = {"CRAN incoming feasibility", "for future file timestamps", "top-level files"}
     if len(note_sections) != counts["NOTE"] or set(note_sections) - expected_fixture_notes:
         raise RuntimeError(f"Unexpected fixture NOTE(s): {note_sections}; inspect {summary['check_log']}")

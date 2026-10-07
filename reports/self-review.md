@@ -25,7 +25,7 @@
 - skill-creator 自带 `quick_validate.py`：通过。
 - 本仓库 `validate_skill.py`：通过；YAML、name、description、内部 Markdown
   链接、UI prompt 和 Python 语法无错误。
-- Python unittest：7 项测试方法通过，含多组参数化 case；覆盖非空目录
+- Python unittest：8 项测试方法通过，含多组参数化 case；覆盖非空目录
   拒绝且文件不变、metadata 注入拒绝、作者字符串转义、license 分支、artifact
   不污染 source、Status 解析、NOTE/中断/development/full 的验收状态和破损链接。
 - Windows / R 4.4.3 / Python 3.14：真实 `smoke_check.py --vignette` 通过。
@@ -65,6 +65,9 @@ CI 默认 no-manual，因此绿色基础 CI 仍不能证明完整 CRAN readiness
 远端 Windows/macOS 已验证修复。Linux 首轮 source dependency provision 缺少
 libuv headers；CI 增加 libuv/libxml2 开发头文件、使用 setup-r 提供的 RSPM
 repository，并在安装后断言所需工具可加载，避免安装警告流入后续 smoke。
+Linux/macOS 的真实 build/check 已通过。Windows 的真实 check 同样没有
+ERROR/WARNING，但偶发 `[16s] NOTE` 日志格式触发 smoke 解析错误；已补充
+耗时标记兼容和回归用例，check summary 也输出 NOTE 对应检查项便于审查。
 
 ## 下一步
 
