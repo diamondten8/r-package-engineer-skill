@@ -1,0 +1,4 @@
+interface:
+  display_name: "R Package Engineer"
+  short_description: "Build and verify R packages for CRAN readiness"
+  default_prompt: "Use $r-package-engineer to inspect this R package, resume at its current stage, and complete the requested work with R CMD check evidence."
