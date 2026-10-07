@@ -37,7 +37,7 @@
 - 修正了实际试运行发现的缺省参数 AST 遍历、空 examples Rd 提取、Windows
   version 输出、UTF-8 输出解码、旧 R locale 和 NEWS numeric header 问题。
 
-最新本地开发 smoke 的 artifact：
+已记录本地开发 smoke 的 artifact：
 
 ```text
 .artifacts/smoke space-zb1cakns/checks/run-ufte6h2o/summary.json
@@ -62,6 +62,9 @@ CI 默认 no-manual，因此绿色基础 CI 仍不能证明完整 CRAN readiness
 首轮远端回归发现临时目录可能通过短路径或 symlink 表示；验证函数已在入口
 统一 resolve，避免将合法的缺失文件判断为“链接逃逸”。检查子进程明确设置
 `NOT_CRAN=false`，避免继承开发环境而使 skip_on_cran 测试被跳过。
+远端 Windows/macOS 已验证修复。Linux 首轮 source dependency provision 缺少
+libuv headers；CI 增加 libuv/libxml2 开发头文件、使用 setup-r 提供的 RSPM
+repository，并在安装后断言所需工具可加载，避免安装警告流入后续 smoke。
 
 ## 下一步
 
